@@ -49,7 +49,7 @@ trait ProjectRepo extends ProjectTable {
   }
 
   def delete(name: String): Future[Int] = {
-    val query = projectTableQuery.filter(x=> x.name === "anuj")
+    val query = projectTableQuery.filter(x=> x.name === name)
     val action = query.delete
     db.run(action)
   }
