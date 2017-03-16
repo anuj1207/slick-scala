@@ -14,8 +14,8 @@ trait DependentTable extends EmployeeTable {
 
   private[repositories] class DependentTable(tag: Tag) extends Table[Dependent](tag, "dependent") {
 
-    val id = column[Int]("dependentid", O.PrimaryKey, O.AutoInc)
-    val empId = column[Int]("empid")
+    val id = column[Int]("dependentId", O.PrimaryKey, O.AutoInc)
+    val empId = column[Int]("empId")
     val name = column[String]("name")
     val relation = column[String]("relation")
     val age = column[Option[Int]]("age", O.Default(None))
@@ -44,8 +44,8 @@ trait DependentRepo extends DependentTable {
     dependentTableQuery += dependent
   }
 
-  def delete(empid: Int): Future[Int] = {
-    val query = dependentTableQuery.filter(d => d.empId === empid)
+  def delete(id: Int): Future[Int] = {
+    val query = dependentTableQuery.filter(d => d.id === id)
     val action = query.delete
     db.run(action)
   }
@@ -71,6 +71,30 @@ trait DependentRepo extends DependentTable {
       employee <- record.employeeDependentFK
     }yield (employee, record)).to[List].result
   }
+
+  def getDependentWithEmployeeName: Future[List[(String,String)]] = {
+    val abc = for{
+      (dep,emp) <- dependentTableQuery join employeeTableQuery on (_.empId === _.id)
+    }yield (dep.name,emp.name)
+    db.run(abc.to[List].result)
+  }
+
+  def insertThenUpdate(dependent1: Dependent, dependent2: Dependent): Future[Int] = {
+    val q1 = dependentTableQuery += dependent1
+    val q2 = dependentTableQuery += dependent2
+    val query = q1.andThen(q2).transactionally
+    db.run(query)
+  }
+
+  def insertPSQL(dependent: Dependent): Future[Int] ={
+    val q = sqlu"insert into dependent values (${dependent.id}, ${dependent.empId}, ${dependent.name}, ${dependent.relation}, ${dependent.age})"
+    db.run(q)
+  }
+
+  /*def getMaxAge = {
+    val query = dependentTableQuery.map(_.age).max
+    db.run(query)
+  }*/
 
 }
 

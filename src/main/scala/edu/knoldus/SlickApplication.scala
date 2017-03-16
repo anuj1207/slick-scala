@@ -8,7 +8,21 @@ object SlickApplication {
 
   def main(args: Array[String]): Unit = {
     println("Hello, world!")
-    EmployeeRepo.create
+
+    /*val insertRes0 = EmployeeRepo.insert(Employee(2022,"anuj",24))
+    val res0 = insertRes0.map{res => s"$res row inserted into employee"}.recover{
+      case ex:Throwable => ex.getMessage
+    }
+    res0.map(println(_))
+    Thread.sleep(1000)*/
+
+    val insertRes1 = DependentRepo.insertThenUpdate(Dependent(51,2022,"anuj","bro",Some(24)),Dependent(52,2022,"anuj'brother","bro",Some(24)))
+    val res1 = insertRes1.map{res => s"$res row inserted into employee"}.recover{
+      case ex:Throwable => ex.getMessage
+    }
+    res1.map(println(_))
+    Thread.sleep(1000)
+    /*EmployeeRepo.create
 
     Thread.sleep(10000)
 
@@ -16,6 +30,7 @@ object SlickApplication {
     val res0 = insertRes0.map{res => s"$res row inserted into employee"}.recover{
       case ex:Throwable => ex.getMessage
     }
+
     res0.map(println(_))
     Thread.sleep(5000)
 
@@ -156,7 +171,7 @@ object SlickApplication {
       case ex:Throwable => ex.getMessage
     }
     res71.map(println(_))
-    Thread.sleep(5000)
+    Thread.sleep(5000)*/
 
   }
 

@@ -3,6 +3,7 @@ package edu.knoldus.repositories
 import edu.knoldus.connection.{DBComp, MySqlComp}
 
 import scala.concurrent.Future
+import scala.concurrent.ExecutionContext.Implicits.global._
 /*not needed now
 import slick.jdbc.PostgresProfile.api._
 import slick.lifted.Tag*/
@@ -47,6 +48,17 @@ trait EmployeeRepo extends EmployeeTable {
     val action = query.delete
     db.run(action)
   }
+
+  /*def read(id: Int) = {
+    val q1 = employeeTableQuery+=Employee(1,"Anuj",24)
+    val q2 = employeeTableQuery+=Employee(2,"Raman",23)
+    val q4 = q1.andThen(q2).transactionally
+    val q3 = q1.andThen(q2).cleanUp{
+      case Some(_) => employeeTableQuery.delete
+    }
+    db.run(q3)
+    db.run(q4)
+  }*/
 
   def update(id:Int ,name: String): Future[Int] = {
     val query = employeeTableQuery.filter(x=> x.id === id)
