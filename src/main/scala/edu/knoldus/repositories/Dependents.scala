@@ -79,9 +79,9 @@ trait DependentRepo extends DependentTable {
     db.run(abc.to[List].result)
   }
 
-  def insertThenUpdate(dependent1: Dependent, dependent2: Dependent): Future[Int] = {
-    val q1 = dependentTableQuery += dependent1
-    val q2 = dependentTableQuery += dependent2
+  def insertThenUpdate(dependent: Dependent, name: String): Future[Int] = {
+    val q1 = dependentTableQuery += dependent
+    val q2 = dependentTableQuery.filter(_.id === dependent.id).map(_.name).update(name)
     val query = q1.andThen(q2).transactionally
     db.run(query)
   }

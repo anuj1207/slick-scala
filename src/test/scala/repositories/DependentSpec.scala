@@ -32,10 +32,10 @@ class DependentSpec extends AsyncFunSuite with DependentRepo with H2DBComp{
     upsert(Dependent(1,1,"swati","sister",Some(28))).map(res=> assert(res == 1))
   }
 
-  /*test ("insert then update") {
-    insertThenUpdate(Dependent(5,2,"Agam","bro",Some(29)),Dependent(6,2,"swati","sis",Some(29)))
+  test ("insert then update") {
+    insertThenUpdate(Dependent(5,2,"Agam","bro",Some(29)),"Agam Bhardwaj")
       .map(res => assert(res == 1))
-  }*/
+  }
 
   /*test("get dependents with employee again"){
     getDependentWithEmployeeName.map(res =>

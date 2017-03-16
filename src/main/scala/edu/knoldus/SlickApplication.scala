@@ -16,7 +16,7 @@ object SlickApplication {
     res0.map(println(_))
     Thread.sleep(1000)*/
 
-    val insertRes1 = DependentRepo.insertThenUpdate(Dependent(51,2022,"anuj","bro",Some(24)),Dependent(52,2022,"anuj'brother","bro",Some(24)))
+    val insertRes1 = DependentRepo.insertThenUpdate(Dependent(51,2022,"anuj","bro",Some(24)),"Agam")
     val res1 = insertRes1.map{res => s"$res row inserted into employee"}.recover{
       case ex:Throwable => ex.getMessage
     }
