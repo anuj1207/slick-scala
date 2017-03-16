@@ -91,10 +91,10 @@ trait DependentRepo extends DependentTable {
     db.run(q)
   }
 
-  /*def getMaxAge = {
+  def getMaxAge: Future[Option[Int]] = {
     val query = dependentTableQuery.map(_.age).max
-    db.run(query)
-  }*/
+    db.run(query.result)
+  }
 
 }
 

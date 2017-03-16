@@ -16,11 +16,18 @@ object SlickApplication {
     res0.map(println(_))
     Thread.sleep(1000)*/
 
-    val insertRes1 = DependentRepo.insertThenUpdate(Dependent(51,2022,"anuj","bro",Some(24)),"Agam")
+    val insertRes1 = DependentRepo.insertThenUpdate(Dependent(53,2022,"anuj","bro",Some(24)),"Agam")
     val res1 = insertRes1.map{res => s"$res row inserted into employee"}.recover{
       case ex:Throwable => ex.getMessage
     }
     res1.map(println(_))
+    Thread.sleep(1000)
+
+    val insertRes2 = DependentRepo.getMaxAge
+    val res2 = insertRes2.map{res => s"$res max from dependent"}.recover{
+      case ex:Throwable => ex.getMessage
+    }
+    res2.map(println(_))
     Thread.sleep(1000)
     /*EmployeeRepo.create
 

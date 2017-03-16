@@ -47,8 +47,8 @@ class DependentSpec extends AsyncFunSuite with DependentRepo with H2DBComp{
     insertPSQL(Dependent(9,2,"Agam","bro",Some(29))).map(res => assert(res === 1))
   }
 
-  /*test("get max age from dependents "){
-
-  }*/
+  test("get max age from dependents "){
+    getMaxAge.map(res => assert(res === Some(29)))
+  }
 
 }
